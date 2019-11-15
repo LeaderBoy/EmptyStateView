@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		525A30B6237E4033001A3367 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30B5237E4033001A3367 /* AppDelegate.swift */; };
-		525A30B8237E4033001A3367 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30B7237E4033001A3367 /* SceneDelegate.swift */; };
 		525A30BA237E4033001A3367 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30B9237E4033001A3367 /* ViewController.swift */; };
 		525A30BD237E4033001A3367 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525A30BB237E4033001A3367 /* Main.storyboard */; };
 		525A30BF237E4037001A3367 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 525A30BE237E4037001A3367 /* Assets.xcassets */; };
 		525A30C2237E4037001A3367 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525A30C0237E4037001A3367 /* LaunchScreen.storyboard */; };
 		525A30CD237E4037001A3367 /* SwiftEmptyStateViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30CC237E4037001A3367 /* SwiftEmptyStateViewUITests.swift */; };
+		525A30DD237E40AC001A3367 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30D8237E40AC001A3367 /* Error.swift */; };
+		525A30DE237E40AC001A3367 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30D9237E40AC001A3367 /* EmptyState.swift */; };
+		525A30DF237E40AC001A3367 /* EmptyStateDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30DA237E40AC001A3367 /* EmptyStateDefault.swift */; };
+		525A30E0237E40AC001A3367 /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525A30DB237E40AC001A3367 /* EmptyStateView.xib */; };
+		525A30E1237E40AC001A3367 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30DC237E40AC001A3367 /* EmptyStateView.swift */; };
+		525A30E3237E4449001A3367 /* UIView + Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30E2237E4449001A3367 /* UIView + Constraints.swift */; };
+		525A30E7237E5FF6001A3367 /* ListLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30E6237E5FF6001A3367 /* ListLoadingView.swift */; };
+		525A30E9237E600B001A3367 /* ListLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525A30E8237E600B001A3367 /* ListLoadingView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +36,6 @@
 /* Begin PBXFileReference section */
 		525A30B2237E4033001A3367 /* SwiftEmptyStateView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEmptyStateView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525A30B5237E4033001A3367 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		525A30B7237E4033001A3367 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		525A30B9237E4033001A3367 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		525A30BC237E4033001A3367 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		525A30BE237E4037001A3367 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +44,14 @@
 		525A30C8237E4037001A3367 /* SwiftEmptyStateViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftEmptyStateViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		525A30CC237E4037001A3367 /* SwiftEmptyStateViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftEmptyStateViewUITests.swift; sourceTree = "<group>"; };
 		525A30CE237E4037001A3367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		525A30D8237E40AC001A3367 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		525A30D9237E40AC001A3367 /* EmptyState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
+		525A30DA237E40AC001A3367 /* EmptyStateDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmptyStateDefault.swift; path = EmptyState/EmptyStateDefault.swift; sourceTree = "<group>"; };
+		525A30DB237E40AC001A3367 /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
+		525A30DC237E40AC001A3367 /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		525A30E2237E4449001A3367 /* UIView + Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Constraints.swift"; sourceTree = "<group>"; };
+		525A30E6237E5FF6001A3367 /* ListLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLoadingView.swift; sourceTree = "<group>"; };
+		525A30E8237E600B001A3367 /* ListLoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListLoadingView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +94,11 @@
 			isa = PBXGroup;
 			children = (
 				525A30B5237E4033001A3367 /* AppDelegate.swift */,
-				525A30B7237E4033001A3367 /* SceneDelegate.swift */,
 				525A30B9237E4033001A3367 /* ViewController.swift */,
+				525A30DA237E40AC001A3367 /* EmptyStateDefault.swift */,
+				525A30E6237E5FF6001A3367 /* ListLoadingView.swift */,
+				525A30E8237E600B001A3367 /* ListLoadingView.xib */,
+				525A30D7237E40AC001A3367 /* EmptyState */,
 				525A30BB237E4033001A3367 /* Main.storyboard */,
 				525A30BE237E4037001A3367 /* Assets.xcassets */,
 				525A30C0237E4037001A3367 /* LaunchScreen.storyboard */,
@@ -97,6 +114,18 @@
 				525A30CE237E4037001A3367 /* Info.plist */,
 			);
 			path = SwiftEmptyStateViewUITests;
+			sourceTree = "<group>";
+		};
+		525A30D7237E40AC001A3367 /* EmptyState */ = {
+			isa = PBXGroup;
+			children = (
+				525A30D8237E40AC001A3367 /* Error.swift */,
+				525A30D9237E40AC001A3367 /* EmptyState.swift */,
+				525A30DB237E40AC001A3367 /* EmptyStateView.xib */,
+				525A30DC237E40AC001A3367 /* EmptyStateView.swift */,
+				525A30E2237E4449001A3367 /* UIView + Constraints.swift */,
+			);
+			path = EmptyState;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,8 +209,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				525A30E9237E600B001A3367 /* ListLoadingView.xib in Resources */,
 				525A30C2237E4037001A3367 /* LaunchScreen.storyboard in Resources */,
 				525A30BF237E4037001A3367 /* Assets.xcassets in Resources */,
+				525A30E0237E40AC001A3367 /* EmptyStateView.xib in Resources */,
 				525A30BD237E4033001A3367 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,9 +231,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				525A30E3237E4449001A3367 /* UIView + Constraints.swift in Sources */,
+				525A30E1237E40AC001A3367 /* EmptyStateView.swift in Sources */,
 				525A30BA237E4033001A3367 /* ViewController.swift in Sources */,
+				525A30DD237E40AC001A3367 /* Error.swift in Sources */,
+				525A30DF237E40AC001A3367 /* EmptyStateDefault.swift in Sources */,
+				525A30E7237E5FF6001A3367 /* ListLoadingView.swift in Sources */,
 				525A30B6237E4033001A3367 /* AppDelegate.swift in Sources */,
-				525A30B8237E4033001A3367 /* SceneDelegate.swift in Sources */,
+				525A30DE237E40AC001A3367 /* EmptyState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
