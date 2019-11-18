@@ -57,13 +57,13 @@ class EmptyStateView: UIView {
             
             switch layout {
             case .bottom(let offset):
-                layouts = bottomlayout(offset: offset)
+                layouts = stackView.bottomlayout(to: self, offset: offset)
             case .top(let offset):
-                layouts = toplayout(offset: offset)
+                layouts = stackView.toplayout(to: self, offset: offset)
             case .center(let offset):
-                layouts = centerlayout(offset: offset)
+                layouts = stackView.centerlayout(to: self, offset: offset)
             case .full:
-                layouts = fulllayout()
+                layouts = stackView.fulllayout(to: self)
             case .custom(let customLayouts):
                 layouts = customLayouts
             }
@@ -95,64 +95,6 @@ class EmptyStateView: UIView {
     
     @IBAction func clicked(_ sender: UIButton) {
         delegate?.emptyButtonClicked(for: state)
-    }
-    
-    /// align top
-    /// - Parameter offset: offset y from top
-    func toplayout(offset : CGFloat) ->[NSLayoutConstraint] {
-        if #available(iOS 11.0, *) {
-            return [stackView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-                    stackView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
-                    stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,constant: offset)]
-        } else {
-            return [stackView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: self.topAnchor,constant: offset)]
-        }
-    }
-    
-    /// align bottom
-    /// - Parameter offset: offset y from bottom
-    func bottomlayout(offset : CGFloat) ->[NSLayoutConstraint] {
-        if #available(iOS 11.0, *) {
-            return [stackView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-                    stackView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
-                    stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,constant: offset)]
-        } else {
-            // Fallback on earlier versions
-            return [stackView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: offset)]
-        }
-    }
-    
-    /// align center
-    /// - Parameter offset: offset y from center
-    func centerlayout(offset : CGFloat) ->[NSLayoutConstraint] {
-        if #available(iOS 11.0, *) {
-            return [stackView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-                    stackView.centerYAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerYAnchor)]
-        } else {
-            // Fallback on earlier versions
-            return [stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)]
-        }
-    }
-    
-    /// fill in superview.safeAreaLayoutGuide
-    func fulllayout() ->[NSLayoutConstraint] {
-        if #available(iOS 11.0, *) {
-            return [stackView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-                    stackView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
-                    stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-                    stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor)]
-        } else {
-            // Fallback on earlier versions
-            return [stackView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            stackView.topAnchor.constraint(equalTo: self.topAnchor)]
-        }
     }
 }
 
