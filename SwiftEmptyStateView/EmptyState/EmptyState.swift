@@ -204,33 +204,34 @@ extension UIView : EmptyStateDatasource {
         }
         
         let view = emptyStateView!
-        
-        if let backgroundColor = emptyDataSource?.emptyViewBackgroundColor(for: state) {
+        let dataSource = emptyDataSource!
+                
+        if let backgroundColor = dataSource.emptyViewBackgroundColor(for: state) {
             view.backgroundColor = backgroundColor
         }
                 
-        if let axis = emptyDataSource?.emptyAxis(for: state) {
+        if let axis = dataSource.emptyAxis(for: state) {
             view.axis = axis
         }
         
-        if let alignment = emptyDataSource?.emptyAlignment(for: state) {
+        if let alignment = dataSource.emptyAlignment(for: state) {
             view.alignment = alignment
         }
         
-        if let distribution = emptyDataSource?.emptyDistribution(for: state) {
+        if let distribution = dataSource.emptyDistribution(for: state) {
             view.distribution = distribution
         }
         
         view.state = state
                 
-        if let customView = emptyDataSource?.emptyCustomView(for: state) {
+        if let customView = dataSource.emptyCustomView(for: state) {
             view.stackView.isHidden = true
             view.customView.isHidden = false
             _ = view.customView.subviews.map{$0.removeFromSuperview()}
             view.customView.addSubview(customView)
             customView.translatesAutoresizingMaskIntoConstraints = false
             
-            if let insets = emptyDataSource?.emptyViewLayoutEdgeInsets(for: state) {
+            if let insets = dataSource.emptyViewLayoutEdgeInsets(for: state) {
                 customView.edges(to: view, insets: insets)
             }else {
                 customView.edges(to: view)
@@ -241,24 +242,24 @@ extension UIView : EmptyStateDatasource {
             view.stackView.isHidden = false
             view.customView.isHidden = true
             
-            if let layout = emptyDataSource?.emptyViewLayout(stackView: view.stackView, containerView: view, for: state) {
+            if let layout = dataSource.emptyViewLayout(stackView: view.stackView, containerView: view, for: state) {
                 view.layout = layout
             }else {
                 view.layout = .full
             }
             
-            if let space = emptyDataSource?.emptySpacing(for: state) {
+            if let space = dataSource.emptySpacing(for: state) {
                 view.stackView.spacing = space
             }
             
-            if let image = emptyDataSource?.emptyImage(for: state) {
+            if let image = dataSource.emptyImage(for: state) {
                 view.imageView.isHidden = false
                 view.imageView.image = image
             }else {
                 view.imageView.isHidden = true
             }
             
-            if let attributeTitle = emptyDataSource?.emptyAttributeTitle(for: state) {
+            if let attributeTitle = dataSource.emptyAttributeTitle(for: state) {
                 view.label.isHidden = false
                 view.label.attributedText = attributeTitle
             }else if let title = emptyTitle(for: state) {
@@ -268,39 +269,39 @@ extension UIView : EmptyStateDatasource {
                 view.label.isHidden = true
             }
                         
-            if let titleColor = emptyDataSource?.emptyTitleColor(for: state) {
+            if let titleColor = dataSource.emptyTitleColor(for: state) {
                 view.label.textColor = titleColor
             }
             
-            if let titleFont = emptyDataSource?.emptyTitleFont(for: state) {
+            if let titleFont = dataSource.emptyTitleFont(for: state) {
                 view.label.font = titleFont
             }
             
-            if let titleAlpha = emptyDataSource?.emptyTitleAlpha(for: state) {
+            if let titleAlpha = dataSource.emptyTitleAlpha(for: state) {
                 view.label.alpha = titleAlpha
             }
             
             var hideButton = true
             
-            if let title = emptyDataSource?.emptyButtonTitle(for: state) {
+            if let title = dataSource.emptyButtonTitle(for: state) {
                 hideButton = false
                 view.button.setTitle(title, for: .normal)
             }
             
-            if let color = emptyDataSource?.emptyButtonTitleColor(for: state) {
+            if let color = dataSource.emptyButtonTitleColor(for: state) {
                 view.button.setTitleColor(color, for: .normal)
             }
             
-            if let image = emptyDataSource?.emptyButtonImage(for: state) {
+            if let image = dataSource.emptyButtonImage(for: state) {
                 hideButton = false
                 view.button.setImage(image, for: .normal)
             }
             
-            if let color = emptyDataSource?.emptyButtonBorderColor(for: state) {
+            if let color = dataSource.emptyButtonBorderColor(for: state) {
                 view.button.layer.borderColor = color.cgColor
             }
             
-            if let width = emptyDataSource?.emptyButtonBorderWidth(for: state) {
+            if let width = dataSource.emptyButtonBorderWidth(for: state) {
                 view.button.layer.borderWidth = width
             }
             
