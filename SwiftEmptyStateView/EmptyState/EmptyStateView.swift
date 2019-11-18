@@ -26,7 +26,12 @@ class EmptyStateView: UIView {
     @IBOutlet weak var customView   : UIView!
     @IBOutlet weak var imageView    : UIImageView!
     @IBOutlet weak var label        : UILabel!
-    @IBOutlet weak var button       : UIButton!
+    @IBOutlet weak var button       : UIButton! {
+        didSet {
+            button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        }
+    }
+    
     @IBOutlet weak var stackView    : UIStackView!
         
     var axis: NSLayoutConstraint.Axis = .vertical {
@@ -89,8 +94,8 @@ class EmptyStateView: UIView {
     }
     
     func setUpButton() {
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1
+        button.layer.cornerRadius   = 15
+        button.layer.borderWidth    = 1
     }
     
     @IBAction func clicked(_ sender: UIButton) {

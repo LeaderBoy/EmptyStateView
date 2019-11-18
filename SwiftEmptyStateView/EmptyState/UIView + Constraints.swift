@@ -53,6 +53,7 @@ extension UIView {
     
     /// align top
     /// - Parameter offset: offset y from top
+    @discardableResult
     func toplayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
         if #available(iOS 11.0, *) {
             return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
@@ -67,6 +68,7 @@ extension UIView {
     
     /// align bottom
     /// - Parameter offset: offset y from bottom
+    @discardableResult
     func bottomlayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
         if #available(iOS 11.0, *) {
             return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
@@ -82,6 +84,7 @@ extension UIView {
     
     /// align center
     /// - Parameter offset: offset y from center
+    @discardableResult
     func centerlayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
         if #available(iOS 11.0, *) {
             return [centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
@@ -94,6 +97,7 @@ extension UIView {
     }
     
     /// fill in superview.safeAreaLayoutGuide
+    @discardableResult
     func fulllayout(to view :UIView) ->[NSLayoutConstraint] {
         if #available(iOS 11.0, *) {
             return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
