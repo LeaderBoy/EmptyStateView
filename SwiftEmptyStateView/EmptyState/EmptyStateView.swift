@@ -26,11 +26,7 @@ class EmptyStateView: UIView {
     @IBOutlet weak var customView   : UIView!
     @IBOutlet weak var imageView    : UIImageView!
     @IBOutlet weak var label        : UILabel!
-    @IBOutlet weak var button       : UIButton! {
-        didSet {
-            button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        }
-    }
+    @IBOutlet weak var button       : UIButton!
     
     @IBOutlet weak var stackView    : UIStackView!
         
@@ -76,11 +72,9 @@ class EmptyStateView: UIView {
         }
     }
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -97,6 +91,7 @@ class EmptyStateView: UIView {
         button.layer.cornerRadius   = 14
         button.layer.borderWidth    = 1
         button.layer.masksToBounds  = true
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
     
     @IBAction func clicked(_ sender: UIButton) {
