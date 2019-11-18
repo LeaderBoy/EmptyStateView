@@ -106,6 +106,10 @@ extension EmptyStateDatasource {
         return nil
     }
     
+    public func emptyButtonCornerRadius(for state: EmptyState) -> CGFloat? {
+        return nil
+    }
+    
     public func emptyViewBackgroundColor(for state: EmptyState) -> UIColor? {
         return nil
     }

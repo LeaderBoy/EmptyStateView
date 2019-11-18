@@ -56,6 +56,7 @@ public protocol EmptyStateDatasource : class {
     func emptyButtonImage(for state: EmptyState) -> UIImage?
     func emptyButtonBorderColor(for state: EmptyState) -> UIColor?
     func emptyButtonBorderWidth(for state: EmptyState) -> CGFloat?
+    func emptyButtonCornerRadius(for state: EmptyState) -> CGFloat?
 
     
     func emptyCustomView(for state: EmptyState) -> UIView?
@@ -303,6 +304,10 @@ extension UIView : EmptyStateDatasource {
             
             if let width = dataSource.emptyButtonBorderWidth(for: state) {
                 view.button.layer.borderWidth = width
+            }
+            
+            if let cornerRadius = dataSource.emptyButtonCornerRadius(for: state) {
+                view.button.layer.cornerRadius = cornerRadius
             }
             
             view.button.isHidden = hideButton

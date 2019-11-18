@@ -94,8 +94,9 @@ class EmptyStateView: UIView {
     }
     
     func setUpButton() {
-        button.layer.cornerRadius   = 15
+        button.layer.cornerRadius   = 14
         button.layer.borderWidth    = 1
+        button.layer.masksToBounds  = true
     }
     
     @IBAction func clicked(_ sender: UIButton) {
