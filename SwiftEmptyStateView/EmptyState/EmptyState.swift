@@ -10,20 +10,20 @@
 import Foundation
 import UIKit
 
-enum EmptyError {
+public enum EmptyError {
     case networkUnReachable
     case timeout
     case failed
 }
 
-enum EmptyState : Equatable {
+public enum EmptyState : Equatable {
     case loading
     case error(_ error : EmptyError)
     case success
     case emptyData
     case custom
     
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
         case (.loading, .loading)       : return true
         case (.success, .success)       : return true
@@ -35,17 +35,13 @@ enum EmptyState : Equatable {
     }
 }
 
-protocol EmptyStateDelegate : class {
+public protocol EmptyStateDelegate : class {
     func emptyButtonClicked(for state: EmptyState)
 }
-extension EmptyStateDelegate {
-    func emptyButtonClicked(for state: EmptyState){}
-}
 
-protocol EmptyStateDatasource : class {
+public protocol EmptyStateDatasource : class {
     
     func emptyImage(for state : EmptyState) -> UIImage?
-
     
     func emptyTitle(for state : EmptyState) -> String?
     func emptyAttributeTitle(for state : EmptyState) -> NSAttributedString?
@@ -63,12 +59,14 @@ protocol EmptyStateDatasource : class {
 
     
     func emptyCustomView(for state: EmptyState) -> UIView?
-    func emptyVerticalSpacing(for state: EmptyState) -> CGFloat?
+    
+    func emptySpacing(for state: EmptyState) -> CGFloat?
     func emptyAxis(for state: EmptyState) -> NSLayoutConstraint.Axis?
     func emptyAlignment(for state: EmptyState) -> UIStackView.Alignment?
     func emptyDistribution(for state: EmptyState) -> UIStackView.Distribution?
-    func emptyShouldFadeOut(for state: EmptyState) -> Bool?
+    func emptyViewShouldFadeOut(for state: EmptyState) -> Bool?
     func emptyViewBackgroundColor(for state: EmptyState) -> UIColor?
+    
     func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout?
     func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets?
 }
@@ -82,7 +80,7 @@ private var EmptyStateDelegateKey = 0
 extension UIView {
     
     /// delegate for view
-    var emptyDelegate: EmptyStateDelegate? {
+    public var emptyDelegate: EmptyStateDelegate? {
         get {
             return objc_getAssociatedObject(self, &EmptyStateDelegateKey) as? EmptyStateDelegate
         }
@@ -92,7 +90,7 @@ extension UIView {
     }
     
     /// datasource for view
-    var emptyDataSource: EmptyStateDatasource? {
+    public var emptyDataSource: EmptyStateDatasource? {
         get {
             return objc_getAssociatedObject(self, &EmptyDataSourceKey) as? EmptyStateDatasource
         }
@@ -109,102 +107,13 @@ extension UIView {
             objc_setAssociatedObject(self, &EmptyStateViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-    func emptyTitle(for state: EmptyState) -> String? {
-        return emptyDataSource?.emptyTitle(for: state)
-    }
-    
-    func emptyAttributeTitle(for state : EmptyState) -> NSAttributedString? {
-        return emptyDataSource?.emptyAttributeTitle(for: state)
-    }
-    
-    func emptyTitleColor(for state : EmptyState) -> UIColor? {
-        return emptyDataSource?.emptyTitleColor(for: state)
-    }
-    
-    func emptyTitleFont(for state : EmptyState) -> UIFont? {
-        return emptyDataSource?.emptyTitleFont(for: state)
-    }
-    
-    func emptyTitleAlpha(for state : EmptyState) -> CGFloat? {
-        return emptyDataSource?.emptyTitleAlpha(for: state)
-    }
-    
-    func emptyImage(for state: EmptyState) -> UIImage? {
-        return emptyDataSource?.emptyImage(for: state)
-    }
-    
-    func emptyButtonTitle(for state: EmptyState) -> String? {
-        return emptyDataSource?.emptyButtonTitle(for: state)
-    }
-    
-    func emptyButtonTitleColor(for state: EmptyState) -> UIColor? {
-        return emptyDataSource?.emptyButtonTitleColor(for: state)
-    }
-    
-    func emptyButtonTitleFont(for state: EmptyState) -> UIFont? {
-        return emptyDataSource?.emptyButtonTitleFont(for: state)
-    }
-    
-    func emptyButtonImage(for state: EmptyState) -> UIImage? {
-        return emptyDataSource?.emptyButtonImage(for: state)
-    }
-    
-    func emptyButtonBorderColor(for state: EmptyState) -> UIColor? {
-        return emptyDataSource?.emptyButtonBorderColor(for: state)
-    }
-    
-    func emptyButtonBorderWidth(for state: EmptyState) -> CGFloat? {
-        return emptyDataSource?.emptyButtonBorderWidth(for: state)
-    }
-    
-    func emptyButtonClicked(for state: EmptyState) {
-        emptyDelegate?.emptyButtonClicked(for: state)
-    }
-    
-    func emptyCustomView(for state: EmptyState) -> UIView? {
-        return emptyDataSource?.emptyCustomView(for: state)
-    }
-    
-    func emptyVerticalVSpacing(for state: EmptyState) -> CGFloat? {
-        return emptyDataSource?.emptyVerticalSpacing(for: state)
-    }
-    
-    func emptyAxis(for state: EmptyState) -> NSLayoutConstraint.Axis? {
-        return emptyDataSource?.emptyAxis(for: state)
-    }
-    
-    func emptyAlignment(for state: EmptyState) -> UIStackView.Alignment? {
-        return emptyDataSource?.emptyAlignment(for: state)
-    }
-    
-    func emptyDistribution(for state: EmptyState) -> UIStackView.Distribution? {
-        return emptyDataSource?.emptyDistribution(for: state)
-    }
-    
-    func emptyShouldFadeOut(for state: EmptyState) -> Bool? {
-        return emptyDataSource?.emptyShouldFadeOut(for: state)
-    }
-    
-    func emptyViewBackgroundColor(for state: EmptyState) -> UIColor?  {
-        return emptyDataSource?.emptyViewBackgroundColor(for: state)
-    }
-    
-    func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout? {
-        return emptyDataSource?.emptyViewLayout(stackView: stackView, containerView: containerView, for: state)
-    }
-    
-    func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets? {
-        return emptyDataSource?.emptyViewLayoutEdgeInsets(for: state)
-    }
-        
 }
 
 
 extension UIView : EmptyStateDatasource {
     /// refresh with current state
     /// - Parameter state: current state
-    func reloadState(_ state: EmptyState = .success) {
+    public func reloadState(_ state: EmptyState = .success) {
         // prevent main thread checker error
         DispatchQueue.main.async {
             if self.emptyDataSource != nil {
@@ -220,7 +129,7 @@ extension UIView : EmptyStateDatasource {
     }
     
     // convenience method for reloadState(.error)
-    func errorReload( _ error : Error) {
+    public func errorReload( _ error : Error) {
         if error.isNotConnectedToInternet() {
             reloadState(.error(.networkUnReachable))
         }else if error.isTimeout() {
@@ -275,7 +184,7 @@ extension UIView : EmptyStateDatasource {
     
     private func remove(for state : EmptyState) {
         if let stateView = emptyStateView {
-            if let fade = self.emptyShouldFadeOut(for: state),fade {
+            if let fade = emptyDataSource?.emptyViewShouldFadeOut(for: state),fade {
                 stateView.alpha = 1.0
                 UIView.animate(withDuration: 0.25, animations: {
                     stateView.alpha = 0.0
@@ -296,32 +205,32 @@ extension UIView : EmptyStateDatasource {
         
         let view = emptyStateView!
         
-        if let backgroundColor = emptyViewBackgroundColor(for: state) {
+        if let backgroundColor = emptyDataSource?.emptyViewBackgroundColor(for: state) {
             view.backgroundColor = backgroundColor
         }
                 
-        if let axis = emptyAxis(for: state) {
+        if let axis = emptyDataSource?.emptyAxis(for: state) {
             view.axis = axis
         }
         
-        if let alignment = emptyAlignment(for: state) {
+        if let alignment = emptyDataSource?.emptyAlignment(for: state) {
             view.alignment = alignment
         }
         
-        if let distribution = emptyDistribution(for: state) {
+        if let distribution = emptyDataSource?.emptyDistribution(for: state) {
             view.distribution = distribution
         }
         
         view.state = state
                 
-        if let customView = emptyCustomView(for: state) {
+        if let customView = emptyDataSource?.emptyCustomView(for: state) {
             view.stackView.isHidden = true
             view.customView.isHidden = false
             _ = view.customView.subviews.map{$0.removeFromSuperview()}
             view.customView.addSubview(customView)
             customView.translatesAutoresizingMaskIntoConstraints = false
             
-            if let insets = emptyViewLayoutEdgeInsets(for: state) {
+            if let insets = emptyDataSource?.emptyViewLayoutEdgeInsets(for: state) {
                 customView.edges(to: view, insets: insets)
             }else {
                 customView.edges(to: view)
@@ -332,24 +241,24 @@ extension UIView : EmptyStateDatasource {
             view.stackView.isHidden = false
             view.customView.isHidden = true
             
-            if let layout = emptyViewLayout(stackView: view.stackView, containerView: view, for: state) {
+            if let layout = emptyDataSource?.emptyViewLayout(stackView: view.stackView, containerView: view, for: state) {
                 view.layout = layout
             }else {
                 view.layout = .full
             }
             
-            if let space = emptyVerticalVSpacing(for: state) {
+            if let space = emptyDataSource?.emptySpacing(for: state) {
                 view.stackView.spacing = space
             }
             
-            if let image = emptyImage(for: state) {
+            if let image = emptyDataSource?.emptyImage(for: state) {
                 view.imageView.isHidden = false
                 view.imageView.image = image
             }else {
                 view.imageView.isHidden = true
             }
             
-            if let attributeTitle = emptyAttributeTitle(for: state) {
+            if let attributeTitle = emptyDataSource?.emptyAttributeTitle(for: state) {
                 view.label.isHidden = false
                 view.label.attributedText = attributeTitle
             }else if let title = emptyTitle(for: state) {
@@ -359,44 +268,43 @@ extension UIView : EmptyStateDatasource {
                 view.label.isHidden = true
             }
                         
-            if let titleColor = emptyTitleColor(for: state) {
+            if let titleColor = emptyDataSource?.emptyTitleColor(for: state) {
                 view.label.textColor = titleColor
             }
             
-            if let titleFont = emptyTitleFont(for: state) {
+            if let titleFont = emptyDataSource?.emptyTitleFont(for: state) {
                 view.label.font = titleFont
             }
             
-            if let titleAlpha = emptyTitleAlpha(for: state) {
+            if let titleAlpha = emptyDataSource?.emptyTitleAlpha(for: state) {
                 view.label.alpha = titleAlpha
             }
             
-            if let title = emptyButtonTitle(for: state) {
+            var hideButton = true
+            
+            if let title = emptyDataSource?.emptyButtonTitle(for: state) {
+                hideButton = false
                 view.button.setTitle(title, for: .normal)
             }
             
-            if let color = emptyButtonTitleColor(for: state) {
+            if let color = emptyDataSource?.emptyButtonTitleColor(for: state) {
                 view.button.setTitleColor(color, for: .normal)
             }
             
-            if let image = emptyButtonImage(for: state) {
+            if let image = emptyDataSource?.emptyButtonImage(for: state) {
+                hideButton = false
                 view.button.setImage(image, for: .normal)
             }
             
-            if let color = emptyButtonBorderColor(for: state) {
+            if let color = emptyDataSource?.emptyButtonBorderColor(for: state) {
                 view.button.layer.borderColor = color.cgColor
             }
             
-            if let width = emptyButtonBorderWidth(for: state) {
+            if let width = emptyDataSource?.emptyButtonBorderWidth(for: state) {
                 view.button.layer.borderWidth = width
             }
             
-            if view.button.titleLabel?.text == nil && view.button.imageView?.image == nil {
-                view.button.isHidden = true
-            }else {
-                view.button.isHidden = false
-            }
-            
+            view.button.isHidden = hideButton
         }
         
         var superView = UIView()

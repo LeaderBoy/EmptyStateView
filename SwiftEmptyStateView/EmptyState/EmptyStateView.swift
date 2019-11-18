@@ -9,7 +9,7 @@
 import UIKit
 
 
-enum EmptyStateLayout {
+public enum EmptyStateLayout {
     case top(offset    : CGFloat)
     case center(offset : CGFloat)
     case bottom(offset : CGFloat)
