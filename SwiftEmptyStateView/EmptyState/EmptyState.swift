@@ -87,7 +87,7 @@ extension UIView {
             return objc_getAssociatedObject(self, &EmptyStateDelegateKey) as? EmptyStateDelegate
         }
         set {
-            objc_setAssociatedObject(self, &EmptyStateDelegateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &EmptyStateDelegateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
@@ -97,7 +97,7 @@ extension UIView {
             return objc_getAssociatedObject(self, &EmptyDataSourceKey) as? EmptyStateDatasource
         }
         set {
-            objc_setAssociatedObject(self, &EmptyDataSourceKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &EmptyDataSourceKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
         }
     }
         
