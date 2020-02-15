@@ -38,23 +38,6 @@ extension UIView {
         return [top,leading,bottom,trailing]
     }
     
-    
-    
-    func edgesToSafearea(to view: UIView,in controller: UIViewController) {
-        translatesAutoresizingMaskIntoConstraints = false
-        let leading     = leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        let trailing    = trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        let bottom      = bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        
-        var top : NSLayoutConstraint
-        if #available(iOS 11.0, *) {
-            top = topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        } else {
-            top = topAnchor.constraint(equalTo: controller.topLayoutGuide.bottomAnchor)
-        }
-        NSLayoutConstraint.activate([top,leading,bottom,trailing])
-    }
-    
     @discardableResult
     func center(to view: UIView) -> [NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
@@ -66,4 +49,68 @@ extension UIView {
         ])
         return [x,y]
     }
+    
+    
+    /// align top
+    /// - Parameter offset: offset y from top
+    @discardableResult
+    func toplayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
+        if #available(iOS 11.0, *) {
+            return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+                    rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+                    topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: offset)]
+        } else {
+            return [leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+            topAnchor.constraint(equalTo: view.topAnchor,constant: offset)]
+        }
+    }
+    
+    /// align bottom
+    /// - Parameter offset: offset y from bottom
+    @discardableResult
+    func bottomlayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
+        if #available(iOS 11.0, *) {
+            return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+                    rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+                    bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: offset)]
+        } else {
+            // Fallback on earlier versions
+            return [leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: offset)]
+        }
+    }
+    
+    /// align center
+    /// - Parameter offset: offset y from center
+    @discardableResult
+    func centerlayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
+        if #available(iOS 11.0, *) {
+            return [centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+                    centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)]
+        } else {
+            // Fallback on earlier versions
+            return [centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            centerYAnchor.constraint(equalTo: view.centerYAnchor)]
+        }
+    }
+    
+    /// fill in superview.safeAreaLayoutGuide
+    @discardableResult
+    func fulllayout(to view :UIView) ->[NSLayoutConstraint] {
+        if #available(iOS 11.0, *) {
+            return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+                    rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+                    bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                    topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)]
+        } else {
+            // Fallback on earlier versions
+            return [leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            topAnchor.constraint(equalTo: view.topAnchor)]
+        }
+    }
+    
 }

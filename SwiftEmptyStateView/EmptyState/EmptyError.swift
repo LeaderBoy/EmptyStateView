@@ -1,8 +1,8 @@
 //
-//  Error.swift
-//  CCDINews
+//  EmptyError.swift
+//  SwiftEmptyStateView
 //
-//  Created by 杨志远 on 2019/9/27.
+//  Created by 杨志远 on 2019/11/18.
 //  Copyright © 2019 BaQiWL. All rights reserved.
 //
 
@@ -41,5 +41,3 @@ extension NSError {
         self.code == NSURLErrorResourceUnavailable
     }
 }
-
-

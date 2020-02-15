@@ -21,7 +21,7 @@ extension UIColor {
 }
 
 extension EmptyStateDatasource {
-    func emptyTitle(for state: EmptyState) -> String? {
+    public func emptyTitle(for state: EmptyState) -> String? {
         switch state {
         case .error(let e) :
             switch e {
@@ -39,23 +39,23 @@ extension EmptyStateDatasource {
         }
     }
     
-    func emptyTitleColor(for state : EmptyState) -> UIColor? {
+    public func emptyTitleColor(for state : EmptyState) -> UIColor? {
         return UIColor.themeColor
     }
     
-    func emptyAttributeTitle(for state : EmptyState) -> NSAttributedString? {
+    public func emptyAttributeTitle(for state : EmptyState) -> NSAttributedString? {
         return nil
     }
     
-    func emptyTitleFont(for state : EmptyState) -> UIFont? {
+    public func emptyTitleFont(for state : EmptyState) -> UIFont? {
         return UIFont.systemFont(ofSize: 17)
     }
     
-    func emptyTitleAlpha(for state : EmptyState) -> CGFloat? {
+    public func emptyTitleAlpha(for state : EmptyState) -> CGFloat? {
         return 1
     }
     
-    func emptyImage(for state: EmptyState) -> UIImage? {
+    public func emptyImage(for state: EmptyState) -> UIImage? {
         switch state {
         case .error(let e) :
             return errorEmptyImage(e: e)
@@ -66,7 +66,7 @@ extension EmptyStateDatasource {
         }
     }
     
-    func errorEmptyImage(e : EmptyError) -> UIImage {
+    public func errorEmptyImage(e : EmptyError) -> UIImage {
         switch e {
         case .networkUnReachable:
             return #imageLiteral(resourceName: "empty_network_unreachable")
@@ -77,7 +77,7 @@ extension EmptyStateDatasource {
         }
     }
     
-    func emptyButtonTitle(for state: EmptyState) -> String? {
+    public func emptyButtonTitle(for state: EmptyState) -> String? {
         switch state {
         case .error(_) :
             return "点击重试"
@@ -86,31 +86,35 @@ extension EmptyStateDatasource {
         }
     }
     
-    func emptyButtonTitleColor(for state: EmptyState) -> UIColor? {
+    public func emptyButtonTitleColor(for state: EmptyState) -> UIColor? {
         return UIColor.themeColor
     }
     
-    func emptyButtonTitleFont(for state: EmptyState) -> UIFont? {
+    public func emptyButtonTitleFont(for state: EmptyState) -> UIFont? {
         return nil
     }
     
-    func emptyButtonImage(for state: EmptyState) -> UIImage? {
+    public func emptyButtonImage(for state: EmptyState) -> UIImage? {
         return nil
     }
     
-    func emptyButtonBorderColor(for state: EmptyState) -> UIColor? {
+    public func emptyButtonBorderColor(for state: EmptyState) -> UIColor? {
         return UIColor.themeLightColor
     }
     
-    func emptyButtonBorderWidth(for state: EmptyState) -> CGFloat? {
+    public func emptyButtonBorderWidth(for state: EmptyState) -> CGFloat? {
         return nil
     }
     
-    func emptyViewBackgroundColor(for state: EmptyState) -> UIColor? {
+    public func emptyButtonCornerRadius(for state: EmptyState) -> CGFloat? {
         return nil
     }
     
-    func emptyCustomView(for state: EmptyState) -> UIView? {
+    public func emptyViewBackgroundColor(for state: EmptyState) -> UIColor? {
+        return nil
+    }
+    
+    public func emptyCustomView(for state: EmptyState) -> UIView? {
         if state == .loading {
             let view = UIView()
             let indicator = UIActivityIndicatorView()
@@ -128,31 +132,31 @@ extension EmptyStateDatasource {
         return nil
     }
     
-    func emptyVerticalSpacing(for state: EmptyState) -> CGFloat? {
+    public func emptySpacing(for state: EmptyState) -> CGFloat? {
         return 20
     }
     
-    func emptyAxis(for state: EmptyState) -> NSLayoutConstraint.Axis? {
+    public func emptyAxis(for state: EmptyState) -> NSLayoutConstraint.Axis? {
         return nil
     }
     
-    func emptyAlignment(for state: EmptyState) -> UIStackView.Alignment? {
+    public func emptyAlignment(for state: EmptyState) -> UIStackView.Alignment? {
         return nil
     }
     
-    func emptyDistribution(for state: EmptyState) -> UIStackView.Distribution? {
+    public func emptyDistribution(for state: EmptyState) -> UIStackView.Distribution? {
         return nil
     }
     
-    func emptyShouldFadeOut(for state: EmptyState) -> Bool? {
+    public func emptyViewShouldFadeOut(for state: EmptyState) -> Bool? {
         return false
     }
     
-    func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout? {
+    public func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout? {
         return .top(offset: 100)
     }
     
-    func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets? {
+    public func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets? {
         return .zero
     }
 }
