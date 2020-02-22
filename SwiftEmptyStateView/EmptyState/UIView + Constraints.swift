@@ -24,13 +24,13 @@ extension UIView {
 
 extension UIView {
     @discardableResult
-    func edges(to view: UIView,insets : UIEdgeInsets = .zero) -> [NSLayoutConstraint] {
+    func edges(to view: UIView,edges: UIEdgeInsets = .zero) -> [NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         
-        let leading     = leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: insets.left)
-        let trailing    = trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: insets.right)
-        let top         = topAnchor.constraint(equalTo: view.topAnchor,constant: insets.top)
-        let bottom      = bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: insets.bottom)
+        let leading     = leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: edges.left)
+        let trailing    = trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: edges.right)
+        let top         = topAnchor.constraint(equalTo: view.topAnchor,constant: edges.top)
+        let bottom      = bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: edges.bottom)
         
         NSLayoutConstraint.activate([
             leading,trailing,top,bottom
@@ -54,63 +54,80 @@ extension UIView {
     /// align top
     /// - Parameter offset: offset y from top
     @discardableResult
-    func toplayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
+    func toplayout(to view :UIView, offset : CGFloat = 0) ->[NSLayoutConstraint] {
+        translatesAutoresizingMaskIntoConstraints = false
+        var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
-            return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            layouts = [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
                     rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
                     topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: offset)]
         } else {
-            return [leftAnchor.constraint(equalTo: view.leftAnchor),
+            layouts = [leftAnchor.constraint(equalTo: view.leftAnchor),
             rightAnchor.constraint(equalTo: view.rightAnchor),
             topAnchor.constraint(equalTo: view.topAnchor,constant: offset)]
         }
+        
+        NSLayoutConstraint.activate(layouts)
+        return layouts
     }
     
     /// align bottom
     /// - Parameter offset: offset y from bottom
     @discardableResult
-    func bottomlayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
+    func bottomlayout(to view :UIView, offset : CGFloat = 0) ->[NSLayoutConstraint] {
+        translatesAutoresizingMaskIntoConstraints = false
+        var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
-            return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            layouts = [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
                     rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
                     bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: offset)]
         } else {
             // Fallback on earlier versions
-            return [leftAnchor.constraint(equalTo: view.leftAnchor),
+            layouts = [leftAnchor.constraint(equalTo: view.leftAnchor),
             rightAnchor.constraint(equalTo: view.rightAnchor),
             bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: offset)]
         }
+        NSLayoutConstraint.activate(layouts)
+        return layouts
     }
     
     /// align center
     /// - Parameter offset: offset y from center
     @discardableResult
-    func centerlayout(to view :UIView, offset : CGFloat) ->[NSLayoutConstraint] {
+    func centerlayout(to view :UIView, offset : CGPoint = .zero) ->[NSLayoutConstraint] {
+        translatesAutoresizingMaskIntoConstraints = false
+        var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
-            return [centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-                    centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)]
+            layouts = [centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor,constant: offset.x),
+                       centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor,constant: offset.y)]
         } else {
             // Fallback on earlier versions
-            return [centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            centerYAnchor.constraint(equalTo: view.centerYAnchor)]
+            layouts = [centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: offset.x),
+                       centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: offset.y)]
         }
+        NSLayoutConstraint.activate(layouts)
+        return layouts
     }
     
     /// fill in superview.safeAreaLayoutGuide
     @discardableResult
-    func fulllayout(to view :UIView) ->[NSLayoutConstraint] {
+    func edgesSafeArea(to view :UIView,edges : UIEdgeInsets = .zero) ->[NSLayoutConstraint] {
+        translatesAutoresizingMaskIntoConstraints = false
+        var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
-            return [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-                    rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-                    bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                    topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)]
+            layouts = [leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor,constant: edges.left),
+                       rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor,constant: edges.right),
+                       bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: edges.bottom),
+                       topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: edges.top)]
         } else {
             // Fallback on earlier versions
-            return [leftAnchor.constraint(equalTo: view.leftAnchor),
-            rightAnchor.constraint(equalTo: view.rightAnchor),
-            bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            topAnchor.constraint(equalTo: view.topAnchor)]
+            layouts = [leftAnchor.constraint(equalTo: view.leftAnchor,constant: edges.left),
+                       rightAnchor.constraint(equalTo: view.rightAnchor,constant: edges.left),
+                       bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: edges.bottom),
+                       topAnchor.constraint(equalTo: view.topAnchor,constant: edges.top)]
         }
+        NSLayoutConstraint.activate(layouts)
+        return layouts
     }
     
 }

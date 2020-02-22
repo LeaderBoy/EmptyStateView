@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         case 3:
             emptyView.reloadState(.error(.timeout))
         case 4:
-            emptyView.reloadState(.error(.failed))
+            emptyView.reloadState(.error(.failed(nil)))
         case 5:
             emptyView.reloadState(.success)
         default:

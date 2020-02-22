@@ -11,9 +11,10 @@ import UIKit
 
 public enum EmptyStateLayout {
     case top(offset    : CGFloat)
-    case center(offset : CGFloat)
+    case center(offset : CGPoint)
     case bottom(offset : CGFloat)
-    case full
+    case full(edges : UIEdgeInsets)
+    case fullSafeArea(edges : UIEdgeInsets)
     case custom(layout : [NSLayoutConstraint])
 }
 
@@ -27,7 +28,6 @@ class EmptyStateView: UIView {
     @IBOutlet weak var imageView    : UIImageView!
     @IBOutlet weak var label        : UILabel!
     @IBOutlet weak var button       : UIButton!
-    
     @IBOutlet weak var stackView    : UIStackView!
         
     var axis: NSLayoutConstraint.Axis = .vertical {
@@ -48,27 +48,27 @@ class EmptyStateView: UIView {
         }
     }
     
-    var layout : EmptyStateLayout = .full {
+    var layout : EmptyStateLayout = .fullSafeArea(edges: .zero) {
         didSet {
             stackView.removeFromSuperview()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(stackView)
             
-            var layouts : [NSLayoutConstraint]
-            
             switch layout {
             case .bottom(let offset):
-                layouts = stackView.bottomlayout(to: self, offset: offset)
+                stackView.bottomlayout(to: self, offset: offset)
             case .top(let offset):
-                layouts = stackView.toplayout(to: self, offset: offset)
+                stackView.toplayout(to: self, offset: offset)
             case .center(let offset):
-                layouts = stackView.centerlayout(to: self, offset: offset)
-            case .full:
-                layouts = stackView.fulllayout(to: self)
+                stackView.centerlayout(to: self, offset: offset)
+            case .full(let edges):
+                stackView.edges(to: self, edges: edges)
+            case .fullSafeArea(let edges):
+                stackView.edgesSafeArea(to: self, edges: edges)
             case .custom(let customLayouts):
-                layouts = customLayouts
+                NSLayoutConstraint.activate(customLayouts)
+            
             }
-            NSLayoutConstraint.activate(layouts)
         }
     }
     

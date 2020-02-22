@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		524F5F5923FF8A5100322478 /* ExampleMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F5F5723FF8A5100322478 /* ExampleMainViewController.swift */; };
+		524F5F5A23FF8A5100322478 /* ExampleMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 524F5F5823FF8A5100322478 /* ExampleMainViewController.xib */; };
 		525A30B6237E4033001A3367 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30B5237E4033001A3367 /* AppDelegate.swift */; };
 		525A30BA237E4033001A3367 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30B9237E4033001A3367 /* ViewController.swift */; };
 		525A30BD237E4033001A3367 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525A30BB237E4033001A3367 /* Main.storyboard */; };
@@ -18,6 +20,9 @@
 		525A30E0237E40AC001A3367 /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525A30DB237E40AC001A3367 /* EmptyStateView.xib */; };
 		525A30E1237E40AC001A3367 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30DC237E40AC001A3367 /* EmptyStateView.swift */; };
 		525A30E3237E4449001A3367 /* UIView + Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30E2237E4449001A3367 /* UIView + Constraints.swift */; };
+		527BE07023FF97BF00E54AAB /* ExampleStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BE06F23FF97BF00E54AAB /* ExampleStateViewController.swift */; };
+		527BE0722400027700E54AAB /* ExampleCustomLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BE0712400027700E54AAB /* ExampleCustomLoadingViewController.swift */; };
+		527BE0792400083400E54AAB /* FlashLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BE0782400083400E54AAB /* FlashLayerView.swift */; };
 		529C3E652382496B00A70433 /* EmptyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C3E642382496B00A70433 /* EmptyError.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		524F5F5723FF8A5100322478 /* ExampleMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleMainViewController.swift; sourceTree = "<group>"; };
+		524F5F5823FF8A5100322478 /* ExampleMainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExampleMainViewController.xib; sourceTree = "<group>"; };
 		525A30B2237E4033001A3367 /* SwiftEmptyStateView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEmptyStateView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525A30B5237E4033001A3367 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		525A30B9237E4033001A3367 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +54,9 @@
 		525A30DB237E40AC001A3367 /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
 		525A30DC237E40AC001A3367 /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		525A30E2237E4449001A3367 /* UIView + Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Constraints.swift"; sourceTree = "<group>"; };
+		527BE06F23FF97BF00E54AAB /* ExampleStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleStateViewController.swift; sourceTree = "<group>"; };
+		527BE0712400027700E54AAB /* ExampleCustomLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCustomLoadingViewController.swift; sourceTree = "<group>"; };
+		527BE0782400083400E54AAB /* FlashLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashLayerView.swift; sourceTree = "<group>"; };
 		529C3E642382496B00A70433 /* EmptyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +78,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		524F5F5B23FF8A5700322478 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				524F5F5723FF8A5100322478 /* ExampleMainViewController.swift */,
+				524F5F5823FF8A5100322478 /* ExampleMainViewController.xib */,
+				527BE06F23FF97BF00E54AAB /* ExampleStateViewController.swift */,
+				527BE0712400027700E54AAB /* ExampleCustomLoadingViewController.swift */,
+				527BE0732400039500E54AAB /* LoadingView */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
 		525A30A9237E4033001A3367 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +113,7 @@
 			children = (
 				525A30B5237E4033001A3367 /* AppDelegate.swift */,
 				525A30B9237E4033001A3367 /* ViewController.swift */,
+				524F5F5B23FF8A5700322478 /* Example */,
 				525A30DA237E40AC001A3367 /* EmptyStateDefault.swift */,
 				525A30D7237E40AC001A3367 /* EmptyState */,
 				525A30BB237E4033001A3367 /* Main.storyboard */,
@@ -120,6 +143,14 @@
 				529C3E642382496B00A70433 /* EmptyError.swift */,
 			);
 			path = EmptyState;
+			sourceTree = "<group>";
+		};
+		527BE0732400039500E54AAB /* LoadingView */ = {
+			isa = PBXGroup;
+			children = (
+				527BE0782400083400E54AAB /* FlashLayerView.swift */,
+			);
+			path = LoadingView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,6 +237,7 @@
 				525A30C2237E4037001A3367 /* LaunchScreen.storyboard in Resources */,
 				525A30BF237E4037001A3367 /* Assets.xcassets in Resources */,
 				525A30E0237E40AC001A3367 /* EmptyStateView.xib in Resources */,
+				524F5F5A23FF8A5100322478 /* ExampleMainViewController.xib in Resources */,
 				525A30BD237E4033001A3367 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,12 +257,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				525A30E3237E4449001A3367 /* UIView + Constraints.swift in Sources */,
+				527BE0722400027700E54AAB /* ExampleCustomLoadingViewController.swift in Sources */,
 				525A30E1237E40AC001A3367 /* EmptyStateView.swift in Sources */,
+				524F5F5923FF8A5100322478 /* ExampleMainViewController.swift in Sources */,
 				525A30BA237E4033001A3367 /* ViewController.swift in Sources */,
 				529C3E652382496B00A70433 /* EmptyError.swift in Sources */,
 				525A30DF237E40AC001A3367 /* EmptyStateDefault.swift in Sources */,
 				525A30B6237E4033001A3367 /* AppDelegate.swift in Sources */,
+				527BE0792400083400E54AAB /* FlashLayerView.swift in Sources */,
 				525A30DE237E40AC001A3367 /* EmptyState.swift in Sources */,
+				527BE07023FF97BF00E54AAB /* ExampleStateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

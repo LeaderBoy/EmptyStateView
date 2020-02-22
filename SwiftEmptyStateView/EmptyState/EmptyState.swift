@@ -7,13 +7,26 @@
 //  Copyright © 2019 BaQiWL. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-public enum EmptyError {
+public enum EmptyError  {
     case networkUnReachable
     case timeout
-    case failed
+    case failed(_ err: Error?)
+    public static func failed(err : Error) -> Self {
+        return .failed(err)
+    }
+}
+
+extension EmptyError : Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.networkUnReachable, .networkUnReachable)       : return true
+        case (.timeout, .timeout)       : return true
+        case (.failed(let l as NSError), .failed(let r as NSError)) where l.code == r.code  : return true
+        case _: return false
+        }
+    }
 }
 
 public enum EmptyState : Equatable {
@@ -68,6 +81,9 @@ public protocol EmptyStateDatasource : class {
     func emptyViewShouldFadeOut(for state: EmptyState) -> Bool?
     func emptyViewBackgroundColor(for state: EmptyState) -> UIColor?
     
+    
+    func emptyViewLayout(in superView : UIView, for state: EmptyState) -> EmptyStateLayout?
+
     func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout?
     func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets?
 }
@@ -78,25 +94,36 @@ private var EmptyStateViewKey = 0
 private var EmptyStateDelegateKey = 0
 
 
+fileprivate struct WeakBox {
+    weak var obj : AnyObject?
+    init(weak obj: AnyObject) {
+        self.obj = obj
+    }
+}
+
 extension UIView {
     
     /// delegate for view
     public var emptyDelegate: EmptyStateDelegate? {
         get {
-            return objc_getAssociatedObject(self, &EmptyStateDelegateKey) as? EmptyStateDelegate
+            let box = objc_getAssociatedObject(self, &EmptyStateDelegateKey) as? WeakBox
+            return box?.obj as? EmptyStateDelegate
         }
         set {
-            objc_setAssociatedObject(self, &EmptyStateDelegateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+            let weakObj = WeakBox(weak: newValue as AnyObject)
+            objc_setAssociatedObject(self, &EmptyStateDelegateKey, weakObj, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     /// datasource for view
     public var emptyDataSource: EmptyStateDatasource? {
         get {
-            return objc_getAssociatedObject(self, &EmptyDataSourceKey) as? EmptyStateDatasource
+            let box = objc_getAssociatedObject(self, &EmptyDataSourceKey) as? WeakBox
+            return box?.obj as? EmptyStateDatasource
         }
         set {
-            objc_setAssociatedObject(self, &EmptyDataSourceKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+            let weakObj = WeakBox(weak: newValue as AnyObject)
+            objc_setAssociatedObject(self, &EmptyDataSourceKey, weakObj, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
         
@@ -115,8 +142,7 @@ extension UIView : EmptyStateDatasource {
     /// refresh with current state
     /// - Parameter state: current state
     public func reloadState(_ state: EmptyState = .success) {
-        // prevent main thread checker error
-        DispatchQueue.main.async {
+        let reload = {
             if self.emptyDataSource != nil {
                 if state == .success || (self.isScrollView() && self.items() != 0) {
                     self.remove(for: state)
@@ -124,7 +150,16 @@ extension UIView : EmptyStateDatasource {
                     self.emptyLayout(for: state)
                 }
             }else {
-                fatalError("\(self) emptyDataSource must not be nil")
+                assertionFailure("\(self) emptyDataSource must not be nil")
+            }
+        }
+        
+        // prevent main thread checker error
+        if Thread.isMainThread {
+            reload()
+        } else {
+            DispatchQueue.main.async {
+                reload()
             }
         }
     }
@@ -136,7 +171,7 @@ extension UIView : EmptyStateDatasource {
         }else if error.isTimeout() {
             reloadState(.error(.timeout))
         }else {
-            reloadState(.error(.failed))
+            reloadState(.error(.failed(nil)))
         }
     }
     
@@ -225,45 +260,61 @@ extension UIView : EmptyStateDatasource {
         
         view.state = state
                 
-        if let customView = dataSource.emptyCustomView(for: state) {
+        if let subView = dataSource.emptyCustomView(for: state) {
+            let supView = view.customView!
             view.stackView.isHidden = true
-            view.customView.isHidden = false
-            _ = view.customView.subviews.map{$0.removeFromSuperview()}
-            view.customView.addSubview(customView)
-            customView.translatesAutoresizingMaskIntoConstraints = false
+            supView.isHidden = false
+            _ = supView.subviews.map{$0.removeFromSuperview()}
+            supView.addSubview(subView)
+            subView.translatesAutoresizingMaskIntoConstraints = false
             
-            if let insets = dataSource.emptyViewLayoutEdgeInsets(for: state) {
-                customView.edges(to: view, insets: insets)
+            let insets = dataSource.emptyViewLayoutEdgeInsets(for: state)
+            
+            if let layout = dataSource.emptyViewLayout(in: view.customView, for: state) {
+                switch layout {
+                case .full:
+                    subView.edges(to: supView,edges: insets ?? .zero)
+                case .top(let offset):
+                    subView.toplayout(to: supView, offset: offset)
+                case .center(let offset):
+                    subView.centerlayout(to: supView,offset: offset)
+                case .bottom(let offset):
+                    subView.bottomlayout(to: supView, offset: offset)
+                case .custom(let layouts):
+                    NSLayoutConstraint.activate(layouts)
+                case .fullSafeArea:
+                    subView.edgesSafeArea(to: supView)
+                }
             }else {
-                customView.edges(to: view)
+                subView.edgesSafeArea(to: supView)
             }
         }else {
             view.delegate = self.emptyDelegate
             
             view.stackView.isHidden = false
             view.customView.isHidden = true
-            
+            // layout for stackView
             if let layout = dataSource.emptyViewLayout(stackView: view.stackView, containerView: view, for: state) {
                 view.layout = layout
             }else {
-                view.layout = .full
+                view.layout = .fullSafeArea(edges: .zero)
             }
-            
+            /// stack spacing
             if let space = dataSource.emptySpacing(for: state) {
                 view.stackView.spacing = space
             }
-            
+            /// layout for image
             if let image = dataSource.emptyImage(for: state) {
                 view.imageView.isHidden = false
                 view.imageView.image = image
             }else {
                 view.imageView.isHidden = true
             }
-            
+            /// layout for label
             if let attributeTitle = dataSource.emptyAttributeTitle(for: state) {
                 view.label.isHidden = false
                 view.label.attributedText = attributeTitle
-            }else if let title = emptyTitle(for: state) {
+            }else if let title = dataSource.emptyTitle(for: state) {
                 view.label.isHidden = false
                 view.label.text = title
             }else {
@@ -282,6 +333,7 @@ extension UIView : EmptyStateDatasource {
                 view.label.alpha = titleAlpha
             }
             
+            /// layout for button
             var hideButton = true
             
             if let title = dataSource.emptyButtonTitle(for: state) {
@@ -314,11 +366,12 @@ extension UIView : EmptyStateDatasource {
         }
         
         var superView = UIView()
-        
+        /// when using tableView
+        /// put subView in tableView's superView rather than tableView
         if isScrollView() && self.superview != nil {
             superView = self.superview!
         } else if isScrollView() && self.superview == nil {
-            fatalError("tableview's superview or collectionView's superview could not be nil")
+            assertionFailure("tableview's superview or collectionView's superview could not be nil")
         }else {
             superView = self
         }
@@ -326,7 +379,6 @@ extension UIView : EmptyStateDatasource {
         view.removeFromSuperview()
         superView.addSubview(view)
         superView.bringSubviewToFront(view)
-        
-        view.edges(to: self)
+        view.edges(to: superView)
     }
 }

@@ -159,25 +159,10 @@ extension EmptyStateDatasource {
     public func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets? {
         return .zero
     }
-}
+    
+    public func emptyViewLayout(in superView : UIView, for state: EmptyState) -> EmptyStateLayout? {
+        return .fullSafeArea(edges: .zero)
+    }
 
-extension EmptyStateDatasource where Self : ListLoading {
-    func emptyCustomView(for state: EmptyState) -> UIView? {
-        return nil
-    }
-    
-    func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout? {
-        if state == .loading {
-            return .center(offset: 0)
-        }
-        return nil
-    }
-    
-    
-    func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets? {
-        return .zero
-    }
 }
-
-protocol  ListLoading : class {}
 
