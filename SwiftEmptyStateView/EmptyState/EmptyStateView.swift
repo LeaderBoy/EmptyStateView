@@ -8,20 +8,28 @@
 
 import UIKit
 
-
+/// Layout plan for your view
 public enum EmptyStateLayout {
+    /// Align top and offset xxx
     case top(offset    : CGFloat)
+    /// Align center and offset xxx
     case center(offset : CGPoint)
+    /// Align bottom and offset xxx
     case bottom(offset : CGFloat)
+    /// fill in superView with edges xxx
     case full(edges : UIEdgeInsets)
+    /// fill in superView with safeArea and edges
     case fullSafeArea(edges : UIEdgeInsets)
+    /// custom layout
     case custom(layout : [NSLayoutConstraint])
 }
 
 class EmptyStateView: UIView {
     
-    weak var delegate : EmptyStateDelegate?
-
+    typealias ClickEvent = (EmptyState) -> Void
+    /// click callback
+    var event : ClickEvent?
+    
     var state : EmptyState!
     
     @IBOutlet weak var customView   : UIView!
@@ -95,7 +103,7 @@ class EmptyStateView: UIView {
     }
     
     @IBAction func clicked(_ sender: UIButton) {
-        delegate?.emptyButtonClicked(for: state)
+        event?(state)
     }
 }
 

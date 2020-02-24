@@ -52,8 +52,8 @@ class ExampleMainViewController: UIViewController {
     }
 }
 
-extension ExampleMainViewController : EmptyStateDatasource {
-    func emptyViewShouldFadeOut(for state: EmptyState) -> Bool? {
+extension ExampleMainViewController : ExampleDefault {
+    func emptyViewShouldFadeOut(for state: EmptyState) -> Bool {
         return true
     }
 }

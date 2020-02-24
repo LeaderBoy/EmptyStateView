@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
     @discardableResult
-    func fromNib<T : UIView>() -> T? {
+    public func fromNib<T : UIView>() -> T? {
         guard let contentView = Bundle(for: type(of: self)).loadNibNamed(String(describing: type(of: self)), owner: self, options: nil)?.first as? T else {
             // xib not loaded, or its top view is of the wrong type
             return nil
@@ -24,7 +24,7 @@ extension UIView {
 
 extension UIView {
     @discardableResult
-    func edges(to view: UIView,edges: UIEdgeInsets = .zero) -> [NSLayoutConstraint] {
+    public func edges(to view: UIView,edges: UIEdgeInsets = .zero) -> [NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         
         let leading     = leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: edges.left)
@@ -39,7 +39,7 @@ extension UIView {
     }
     
     @discardableResult
-    func center(to view: UIView) -> [NSLayoutConstraint] {
+    public func center(to view: UIView) -> [NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         let x = centerXAnchor.constraint(equalTo: view.centerXAnchor)
         let y = centerYAnchor.constraint(equalTo: view.centerYAnchor)
@@ -54,7 +54,7 @@ extension UIView {
     /// align top
     /// - Parameter offset: offset y from top
     @discardableResult
-    func toplayout(to view :UIView, offset : CGFloat = 0) ->[NSLayoutConstraint] {
+    public func toplayout(to view :UIView, offset : CGFloat = 0) ->[NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
@@ -74,7 +74,7 @@ extension UIView {
     /// align bottom
     /// - Parameter offset: offset y from bottom
     @discardableResult
-    func bottomlayout(to view :UIView, offset : CGFloat = 0) ->[NSLayoutConstraint] {
+    public func bottomlayout(to view :UIView, offset : CGFloat = 0) ->[NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
@@ -94,16 +94,22 @@ extension UIView {
     /// align center
     /// - Parameter offset: offset y from center
     @discardableResult
-    func centerlayout(to view :UIView, offset : CGPoint = .zero) ->[NSLayoutConstraint] {
+    public func centerlayout(to view :UIView, offset : CGPoint = .zero) ->[NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
-            layouts = [centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor,constant: offset.x),
-                       centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor,constant: offset.y)]
+            layouts = [
+                centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor,constant: offset.x),
+                centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor,constant: offset.y),
+                widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor)
+            ]
         } else {
             // Fallback on earlier versions
-            layouts = [centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: offset.x),
-                       centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: offset.y)]
+            layouts = [
+                centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: offset.x),
+                centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: offset.y),
+                widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor)
+            ]
         }
         NSLayoutConstraint.activate(layouts)
         return layouts
@@ -111,7 +117,7 @@ extension UIView {
     
     /// fill in superview.safeAreaLayoutGuide
     @discardableResult
-    func edgesSafeArea(to view :UIView,edges : UIEdgeInsets = .zero) ->[NSLayoutConstraint] {
+    public func edgesSafeArea(to view :UIView,edges : UIEdgeInsets = .zero) ->[NSLayoutConstraint] {
         translatesAutoresizingMaskIntoConstraints = false
         var layouts : [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {

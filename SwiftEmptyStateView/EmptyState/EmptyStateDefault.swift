@@ -9,38 +9,13 @@
 import Foundation
 import UIKit
 
-
-extension UIColor {
-    static var themeColor : UIColor {
-        return UIColor(red: 42 / 255.0, green: 207 / 255.0, blue: 195 / 255.0,alpha: 1.0)
-    }
-    
-    static var themeLightColor : UIColor {
-        return UIColor(red: 194 / 255.0, green: 242 / 255.0, blue: 240 / 255.0,alpha: 1.0)
-    }
-}
-
 extension EmptyStateDatasource {
     public func emptyTitle(for state: EmptyState) -> String? {
-        switch state {
-        case .error(let e) :
-            switch e {
-            case .networkUnReachable:
-                return "当前网络不可用,请检查网络设置"
-            case .timeout:
-                return "请求超时"
-            case .failed:
-                return "加载失败"
-            }
-        case .emptyData:
-            return "暂无数据"
-        case .custom,.loading,.success:
-            return nil
-        }
+        return nil
     }
     
     public func emptyTitleColor(for state : EmptyState) -> UIColor? {
-        return UIColor.themeColor
+        return nil
     }
     
     public func emptyAttributeTitle(for state : EmptyState) -> NSAttributedString? {
@@ -56,38 +31,15 @@ extension EmptyStateDatasource {
     }
     
     public func emptyImage(for state: EmptyState) -> UIImage? {
-        switch state {
-        case .error(let e) :
-            return errorEmptyImage(e: e)
-        case .emptyData:
-            return #imageLiteral(resourceName: "empty_data")
-        case .custom,.loading,.success:
-            return nil
-        }
-    }
-    
-    public func errorEmptyImage(e : EmptyError) -> UIImage {
-        switch e {
-        case .networkUnReachable:
-            return #imageLiteral(resourceName: "empty_network_unreachable")
-        case .timeout:
-            return #imageLiteral(resourceName: "empty_network_timeout")
-        case .failed:
-            return #imageLiteral(resourceName: "empty_failed")
-        }
+        return nil
     }
     
     public func emptyButtonTitle(for state: EmptyState) -> String? {
-        switch state {
-        case .error(_) :
-            return "点击重试"
-        case .emptyData,.custom,.loading,.success:
-            return nil
-        }
+        return nil
     }
     
     public func emptyButtonTitleColor(for state: EmptyState) -> UIColor? {
-        return UIColor.themeColor
+        return nil
     }
     
     public func emptyButtonTitleFont(for state: EmptyState) -> UIFont? {
@@ -98,8 +50,12 @@ extension EmptyStateDatasource {
         return nil
     }
     
+    public func emptyButtonBackgroundImage(for state: EmptyState) -> UIImage? {
+        return nil
+    }
+    
     public func emptyButtonBorderColor(for state: EmptyState) -> UIColor? {
-        return UIColor.themeLightColor
+        return nil
     }
     
     public func emptyButtonBorderWidth(for state: EmptyState) -> CGFloat? {
@@ -137,7 +93,7 @@ extension EmptyStateDatasource {
     }
     
     public func emptyAxis(for state: EmptyState) -> NSLayoutConstraint.Axis? {
-        return nil
+        return .vertical
     }
     
     public func emptyAlignment(for state: EmptyState) -> UIStackView.Alignment? {
@@ -148,20 +104,15 @@ extension EmptyStateDatasource {
         return nil
     }
     
-    public func emptyViewShouldFadeOut(for state: EmptyState) -> Bool? {
+    public func emptyViewShouldFadeOut(for state: EmptyState) -> Bool {
         return false
     }
     
-    public func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout? {
-        return .top(offset: 100)
+    public func emptyLayout(in customView : UIView, for state: EmptyState) -> EmptyStateLayout? {
+        return .center(offset: .zero)
     }
-    
-    public func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets? {
-        return .zero
-    }
-    
-    public func emptyViewLayout(in superView : UIView, for state: EmptyState) -> EmptyStateLayout? {
-        return .fullSafeArea(edges: .zero)
+    public func emptyLayout(for stackView : UIStackView,in containerView : UIView, for state: EmptyState) -> EmptyStateLayout? {
+        return .center(offset: .zero)
     }
 
 }

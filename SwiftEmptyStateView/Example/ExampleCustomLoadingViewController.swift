@@ -27,7 +27,7 @@ class ExampleCustomLoadingViewController: UIViewController {
         // 2.start loading
         view.reloadState(.loading)
         // 3.simulate network request
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             /// 4.reload state
             self.view.reloadState(.error(.networkUnReachable))
         }
@@ -42,19 +42,20 @@ extension ExampleCustomLoadingViewController : EmptyStateDelegate {
     }
 }
 
-protocol LogoLoading : EmptyStateDatasource {}
+/// Then you can use LogoLoading anywhere
+protocol LogoLoading : ExampleDefault {}
 
 extension LogoLoading {
     func emptyCustomView(for state: EmptyState) -> UIView? {
         if state == .loading {
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .lightText
             let flashView = FlashLayerView(with: "Logo Name")
             flashView.sizeToFit()
-            backgroundView.addSubview(flashView)
-            flashView.centerlayout(to: backgroundView, offset: .zero)
-            return backgroundView
+            return flashView
         }
         return nil
+    }
+    
+    func emptyLayout(for stackView: UIStackView, in containerView: UIView, for state: EmptyState) -> EmptyStateLayout? {
+        return .top(offset: 100)
     }
 }

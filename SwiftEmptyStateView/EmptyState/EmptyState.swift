@@ -48,51 +48,47 @@ public enum EmptyState : Equatable {
     }
 }
 
+ 
 public protocol EmptyStateDelegate : class {
     func emptyButtonClicked(for state: EmptyState)
 }
 
 public protocol EmptyStateDatasource : class {
-    
+    /// Image
     func emptyImage(for state : EmptyState) -> UIImage?
-    
+    /// Label
     func emptyTitle(for state : EmptyState) -> String?
     func emptyAttributeTitle(for state : EmptyState) -> NSAttributedString?
     func emptyTitleColor(for state : EmptyState) -> UIColor?
     func emptyTitleFont(for state : EmptyState) -> UIFont?
     func emptyTitleAlpha(for state : EmptyState) -> CGFloat?
-    
-    
+    /// Button
     func emptyButtonTitle(for state: EmptyState) -> String?
     func emptyButtonTitleColor(for state: EmptyState) -> UIColor?
     func emptyButtonTitleFont(for state: EmptyState) -> UIFont?
     func emptyButtonImage(for state: EmptyState) -> UIImage?
+    func emptyButtonBackgroundImage(for state: EmptyState) -> UIImage?
     func emptyButtonBorderColor(for state: EmptyState) -> UIColor?
     func emptyButtonBorderWidth(for state: EmptyState) -> CGFloat?
     func emptyButtonCornerRadius(for state: EmptyState) -> CGFloat?
-
-    
+    /// Custom
     func emptyCustomView(for state: EmptyState) -> UIView?
-    
+    /// StackView
     func emptySpacing(for state: EmptyState) -> CGFloat?
     func emptyAxis(for state: EmptyState) -> NSLayoutConstraint.Axis?
     func emptyAlignment(for state: EmptyState) -> UIStackView.Alignment?
     func emptyDistribution(for state: EmptyState) -> UIStackView.Distribution?
-    func emptyViewShouldFadeOut(for state: EmptyState) -> Bool?
+    /// Container
+    func emptyViewShouldFadeOut(for state: EmptyState) -> Bool
     func emptyViewBackgroundColor(for state: EmptyState) -> UIColor?
-    
-    
-    func emptyViewLayout(in superView : UIView, for state: EmptyState) -> EmptyStateLayout?
-
-    func emptyViewLayout(stackView : UIStackView,containerView : UIView, for state: EmptyState) -> EmptyStateLayout?
-    func emptyViewLayoutEdgeInsets(for state: EmptyState) -> UIEdgeInsets?
+    /// Layout
+    func emptyLayout(in customView : UIView, for state: EmptyState) -> EmptyStateLayout?
+    func emptyLayout(for stackView : UIStackView,in containerView : UIView, for state: EmptyState) -> EmptyStateLayout?
 }
-
 
 private var EmptyDataSourceKey = 0
 private var EmptyStateViewKey = 0
 private var EmptyStateDelegateKey = 0
-
 
 fileprivate struct WeakBox {
     weak var obj : AnyObject?
@@ -103,7 +99,8 @@ fileprivate struct WeakBox {
 
 extension UIView {
     
-    /// delegate for view
+    /// Delegate for `UIView`
+    /// confirm to this protocol,when you need to respond to the click event.
     public var emptyDelegate: EmptyStateDelegate? {
         get {
             let box = objc_getAssociatedObject(self, &EmptyStateDelegateKey) as? WeakBox
@@ -115,7 +112,8 @@ extension UIView {
         }
     }
     
-    /// datasource for view
+    /// Datasource for `UIView`
+    /// confirm to this protocol,when you need to custom datasource
     public var emptyDataSource: EmptyStateDatasource? {
         get {
             let box = objc_getAssociatedObject(self, &EmptyDataSourceKey) as? WeakBox
@@ -126,7 +124,7 @@ extension UIView {
             objc_setAssociatedObject(self, &EmptyDataSourceKey, weakObj, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-        
+    
     private var emptyStateView : EmptyStateView? {
         get {
             return objc_getAssociatedObject(self, &EmptyStateViewKey) as? EmptyStateView
@@ -139,32 +137,26 @@ extension UIView {
 
 
 extension UIView : EmptyStateDatasource {
-    /// refresh with current state
+    /// Refresh with current state
     /// - Parameter state: current state
     public func reloadState(_ state: EmptyState = .success) {
-        let reload = {
-            if self.emptyDataSource != nil {
-                if state == .success || (self.isScrollView() && self.items() != 0) {
-                    self.remove(for: state)
-                }else {
-                    self.emptyLayout(for: state)
-                }
-            }else {
-                assertionFailure("\(self) emptyDataSource must not be nil")
-            }
-        }
+        assert(Thread.isMainThread, "Main thread is required")
         
-        // prevent main thread checker error
-        if Thread.isMainThread {
-            reload()
-        } else {
-            DispatchQueue.main.async {
-                reload()
+        if self.emptyDataSource != nil {
+            if state == .success || (self.isScrollView() && self.items() != 0) {
+                self.removeFromParent(for: state)
+            }else {
+                self.emptyLayout(for: state)
             }
+        }else {
+            assertionFailure("\(self)'s emptyDataSource must not be nil")
         }
     }
     
     // convenience method for reloadState(.error)
+    
+    /// Convenience method for reloadState(.error)
+    /// - Parameter error: an error obj which confirm to `Error` protocol
     public func errorReload( _ error : Error) {
         if error.isNotConnectedToInternet() {
             reloadState(.error(.networkUnReachable))
@@ -175,7 +167,6 @@ extension UIView : EmptyStateDatasource {
         }
     }
     
-    /// 是否为列表视图
     private func isScrollView() -> Bool {
         return self is UITableView || self is UICollectionView
     }
@@ -184,7 +175,6 @@ extension UIView : EmptyStateDatasource {
         var itemsCount = 0
         if self is UITableView {
             let tableView = self as! UITableView
-            
             if let dataSource = tableView.dataSource {
                 if let sections = dataSource.numberOfSections?(in: tableView) {
                     for section in 0..<sections {
@@ -197,7 +187,6 @@ extension UIView : EmptyStateDatasource {
                         itemsCount += rows
                     }
                 }
-                
             }
         }else if self is UICollectionView {
             let collectionView = self as! UICollectionView
@@ -218,7 +207,7 @@ extension UIView : EmptyStateDatasource {
         return itemsCount
     }
     
-    private func remove(for state : EmptyState) {
+    private func removeFromParent(for state : EmptyState) {
         if let stateView = emptyStateView {
             if let fade = emptyDataSource?.emptyViewShouldFadeOut(for: state),fade {
                 stateView.alpha = 1.0
@@ -238,10 +227,9 @@ extension UIView : EmptyStateDatasource {
             let emptyStateView = EmptyStateView()
             self.emptyStateView = emptyStateView
         }
-        
         let view = emptyStateView!
-        let dataSource = emptyDataSource!
-                
+        guard let dataSource = emptyDataSource else { return }
+        /// Custom container
         if let backgroundColor = dataSource.emptyViewBackgroundColor(for: state) {
             view.backgroundColor = backgroundColor
         }
@@ -267,13 +255,11 @@ extension UIView : EmptyStateDatasource {
             _ = supView.subviews.map{$0.removeFromSuperview()}
             supView.addSubview(subView)
             subView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let insets = dataSource.emptyViewLayoutEdgeInsets(for: state)
-            
-            if let layout = dataSource.emptyViewLayout(in: view.customView, for: state) {
+            /// Layout for custom view
+            if let layout = dataSource.emptyLayout(in: supView, for: state) {
                 switch layout {
-                case .full:
-                    subView.edges(to: supView,edges: insets ?? .zero)
+                case .full(let edges):
+                    subView.edges(to: supView,edges: edges)
                 case .top(let offset):
                     subView.toplayout(to: supView, offset: offset)
                 case .center(let offset):
@@ -282,19 +268,21 @@ extension UIView : EmptyStateDatasource {
                     subView.bottomlayout(to: supView, offset: offset)
                 case .custom(let layouts):
                     NSLayoutConstraint.activate(layouts)
-                case .fullSafeArea:
-                    subView.edgesSafeArea(to: supView)
+                case .fullSafeArea(let edges):
+                    subView.edgesSafeArea(to: supView,edges: edges)
                 }
             }else {
                 subView.edgesSafeArea(to: supView)
             }
         }else {
-            view.delegate = self.emptyDelegate
-            
+            view.event = { [weak self] state in
+                guard let self = self else { return }
+                self.emptyDelegate?.emptyButtonClicked(for: state)
+            }
             view.stackView.isHidden = false
             view.customView.isHidden = true
             // layout for stackView
-            if let layout = dataSource.emptyViewLayout(stackView: view.stackView, containerView: view, for: state) {
+            if let layout = dataSource.emptyLayout(for: view.stackView, in: view, for: state) {
                 view.layout = layout
             }else {
                 view.layout = .fullSafeArea(edges: .zero)
@@ -317,20 +305,20 @@ extension UIView : EmptyStateDatasource {
             }else if let title = dataSource.emptyTitle(for: state) {
                 view.label.isHidden = false
                 view.label.text = title
-            }else {
+                
+                if let titleColor = dataSource.emptyTitleColor(for: state) {
+                    view.label.textColor = titleColor
+                }
+                
+                if let titleFont = dataSource.emptyTitleFont(for: state) {
+                    view.label.font = titleFont
+                }
+                
+                if let titleAlpha = dataSource.emptyTitleAlpha(for: state) {
+                    view.label.alpha = titleAlpha
+                }
+            } else {
                 view.label.isHidden = true
-            }
-                        
-            if let titleColor = dataSource.emptyTitleColor(for: state) {
-                view.label.textColor = titleColor
-            }
-            
-            if let titleFont = dataSource.emptyTitleFont(for: state) {
-                view.label.font = titleFont
-            }
-            
-            if let titleAlpha = dataSource.emptyTitleAlpha(for: state) {
-                view.label.alpha = titleAlpha
             }
             
             /// layout for button
@@ -341,6 +329,10 @@ extension UIView : EmptyStateDatasource {
                 view.button.setTitle(title, for: .normal)
             }
             
+            if let font = dataSource.emptyButtonTitleFont(for: state) {
+                view.button.titleLabel?.font = font
+            }
+            
             if let color = dataSource.emptyButtonTitleColor(for: state) {
                 view.button.setTitleColor(color, for: .normal)
             }
@@ -348,6 +340,11 @@ extension UIView : EmptyStateDatasource {
             if let image = dataSource.emptyButtonImage(for: state) {
                 hideButton = false
                 view.button.setImage(image, for: .normal)
+            }
+            
+            if let image = dataSource.emptyButtonBackgroundImage(for: state) {
+                hideButton = false
+                view.button.setBackgroundImage(image, for: .normal)
             }
             
             if let color = dataSource.emptyButtonBorderColor(for: state) {

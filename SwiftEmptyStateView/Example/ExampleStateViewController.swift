@@ -31,7 +31,7 @@ class ExampleStateViewController: UIViewController {
     }
 }
 
-extension ExampleStateViewController : EmptyStateDatasource {}
+extension ExampleStateViewController : ExampleDefault {}
 
 
 extension ExampleStateViewController : EmptyStateDelegate {
