@@ -34,6 +34,7 @@ class ExampleCustomLoadingViewController: UIViewController {
     }
 }
 
+extension ExampleCustomLoadingViewController : ExampleDefault {}
 extension ExampleCustomLoadingViewController : LogoLoading {}
 
 extension ExampleCustomLoadingViewController : EmptyStateDelegate {
@@ -42,10 +43,11 @@ extension ExampleCustomLoadingViewController : EmptyStateDelegate {
     }
 }
 
-/// Then you can use LogoLoading anywhere
-protocol LogoLoading : ExampleDefault {}
+/// Then you can use LogoLoading & ExampleDefault anywhere
+/// It's an empty protocol but works perfectly
+protocol LogoLoading {}
 
-extension LogoLoading {
+extension ExampleDefault where Self : LogoLoading {
     func emptyCustomView(for state: EmptyState) -> UIView? {
         if state == .loading {
             let flashView = FlashLayerView(with: "Logo Name")
@@ -53,9 +55,5 @@ extension LogoLoading {
             return flashView
         }
         return nil
-    }
-    
-    func emptyLayout(for stackView: UIStackView, in containerView: UIView, for state: EmptyState) -> EmptyStateLayout? {
-        return .top(offset: 100)
     }
 }

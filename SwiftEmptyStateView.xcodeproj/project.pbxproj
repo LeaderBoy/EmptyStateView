@@ -21,6 +21,8 @@
 		525A30E1237E40AC001A3367 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30DC237E40AC001A3367 /* EmptyStateView.swift */; };
 		525A30E3237E4449001A3367 /* UIView + Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525A30E2237E4449001A3367 /* UIView + Constraints.swift */; };
 		526696802403DC72008C80EA /* ExampleDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5266967F2403DC72008C80EA /* ExampleDefault.swift */; };
+		5266968324040550008C80EA /* ExampleListLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5266968124040550008C80EA /* ExampleListLoadingViewController.swift */; };
+		5266968424040550008C80EA /* ExampleListLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5266968224040550008C80EA /* ExampleListLoadingViewController.xib */; };
 		527BE07023FF97BF00E54AAB /* ExampleStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BE06F23FF97BF00E54AAB /* ExampleStateViewController.swift */; };
 		527BE0722400027700E54AAB /* ExampleCustomLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BE0712400027700E54AAB /* ExampleCustomLoadingViewController.swift */; };
 		527BE0792400083400E54AAB /* FlashLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BE0782400083400E54AAB /* FlashLayerView.swift */; };
@@ -56,6 +58,8 @@
 		525A30DC237E40AC001A3367 /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		525A30E2237E4449001A3367 /* UIView + Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Constraints.swift"; sourceTree = "<group>"; };
 		5266967F2403DC72008C80EA /* ExampleDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleDefault.swift; sourceTree = "<group>"; };
+		5266968124040550008C80EA /* ExampleListLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleListLoadingViewController.swift; sourceTree = "<group>"; };
+		5266968224040550008C80EA /* ExampleListLoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExampleListLoadingViewController.xib; sourceTree = "<group>"; };
 		527BE06F23FF97BF00E54AAB /* ExampleStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleStateViewController.swift; sourceTree = "<group>"; };
 		527BE0712400027700E54AAB /* ExampleCustomLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCustomLoadingViewController.swift; sourceTree = "<group>"; };
 		527BE0782400083400E54AAB /* FlashLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashLayerView.swift; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 				524F5F5823FF8A5100322478 /* ExampleMainViewController.xib */,
 				527BE06F23FF97BF00E54AAB /* ExampleStateViewController.swift */,
 				527BE0712400027700E54AAB /* ExampleCustomLoadingViewController.swift */,
+				5266968124040550008C80EA /* ExampleListLoadingViewController.swift */,
+				5266968224040550008C80EA /* ExampleListLoadingViewController.xib */,
 				527BE0732400039500E54AAB /* LoadingView */,
 				5266967F2403DC72008C80EA /* ExampleDefault.swift */,
 			);
@@ -237,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5266968424040550008C80EA /* ExampleListLoadingViewController.xib in Resources */,
 				525A30C2237E4037001A3367 /* LaunchScreen.storyboard in Resources */,
 				525A30BF237E4037001A3367 /* Assets.xcassets in Resources */,
 				525A30E0237E40AC001A3367 /* EmptyStateView.xib in Resources */,
@@ -270,6 +277,7 @@
 				525A30B6237E4033001A3367 /* AppDelegate.swift in Sources */,
 				527BE0792400083400E54AAB /* FlashLayerView.swift in Sources */,
 				525A30DE237E40AC001A3367 /* EmptyState.swift in Sources */,
+				5266968324040550008C80EA /* ExampleListLoadingViewController.swift in Sources */,
 				527BE07023FF97BF00E54AAB /* ExampleStateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

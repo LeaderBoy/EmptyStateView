@@ -42,8 +42,8 @@ class ExampleMainViewController: UIViewController {
                 Example(state: .error(.timeout), title: "Simulate request timeout"),
                 Example(state: .error(.networkUnReachable), title: "Simulate network unreachable"),
                 Example(state: .emptyData, title: "Simulate empty datasource"),
-                Example(state: .custom, title: "Custom loading")
-
+                Example(state: .custom, title: "Custom loading"),
+                Example(state: .custom, title: "Custom List loading")
             ]
             /// 4.loading success
             self.tableView.reloadState(.success)
@@ -61,10 +61,14 @@ extension ExampleMainViewController : ExampleDefault {
 extension ExampleMainViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let state = dataSource[indexPath.row].state
-        
         if case .custom = state {
-            let controller = ExampleCustomLoadingViewController()
-            navigationController?.pushViewController(controller, animated: true)
+            if indexPath.row == dataSource.count - 1 {
+                let controller = ExampleListLoadingViewController()
+                navigationController?.pushViewController(controller, animated: true)
+            } else {
+                let controller = ExampleCustomLoadingViewController()
+                navigationController?.pushViewController(controller, animated: true)
+            }
         } else {
             let controller = ExampleStateViewController()
             controller.state = state

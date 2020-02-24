@@ -9,17 +9,12 @@
 import Foundation
 import UIKit
 
+/// A default protocol you need to define
+/// Then your application has the default configuration now
+/// if you want to override any method in EmptyStateDatasource
+/// just confirm to this protocol and custom you own imp
+/// you will have ExampleDefault/EmptyStateDatasource and you own imp work together perfectly
 protocol ExampleDefault : EmptyStateDatasource {}
-
-extension UIColor {
-    static var themeColor : UIColor {
-        return UIColor(red: 42 / 255.0, green: 207 / 255.0, blue: 195 / 255.0,alpha: 1.0)
-    }
-    
-    static var themeLightColor : UIColor {
-        return UIColor(red: 194 / 255.0, green: 242 / 255.0, blue: 240 / 255.0,alpha: 1.0)
-    }
-}
 
 extension ExampleDefault {
     func emptyTitle(for state: EmptyState) -> String? {
@@ -29,12 +24,12 @@ extension ExampleDefault {
             case .networkUnReachable:
                 return "No network connection, please check the network connection status and try again later"
             case .timeout:
-                return "请求超时"
+                return "Request time out,please try again"
             case .failed:
-                return "加载失败"
+                return "Request failed"
             }
         case .emptyData:
-            return "暂无数据"
+            return "Empty data now"
         case .custom,.loading,.success:
             return nil
         }
@@ -69,7 +64,7 @@ extension ExampleDefault {
     func emptyButtonTitle(for state: EmptyState) -> String? {
         switch state {
         case .error(_) :
-            return "重试"
+            return "Retry"
         case .emptyData,.custom,.loading,.success:
             return nil
         }
@@ -88,3 +83,13 @@ extension ExampleDefault {
     }
 }
 
+
+extension UIColor {
+    static var themeColor : UIColor {
+        return UIColor(red: 42 / 255.0, green: 207 / 255.0, blue: 195 / 255.0,alpha: 1.0)
+    }
+    
+    static var themeLightColor : UIColor {
+        return UIColor(red: 194 / 255.0, green: 242 / 255.0, blue: 240 / 255.0,alpha: 1.0)
+    }
+}
