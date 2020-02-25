@@ -33,7 +33,6 @@ class ExampleStateViewController: UIViewController {
 
 extension ExampleStateViewController : ExampleDefault {}
 
-
 extension ExampleStateViewController : EmptyStateDelegate {
     func emptyButtonClicked(for state: EmptyState) {
         if case .error(_) = state {

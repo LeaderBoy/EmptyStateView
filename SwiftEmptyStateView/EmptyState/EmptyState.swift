@@ -142,6 +142,10 @@ extension UIView : EmptyStateDatasource {
     public func reloadState(_ state: EmptyState = .success) {
         assert(Thread.isMainThread, "Main thread is required")
         
+        if let view = emptyStateView,view.state == state {
+            return
+        }
+        
         if self.emptyDataSource != nil {
             if state == .success || (self.isScrollView() && self.items() != 0) {
                 self.removeFromParent(for: state)

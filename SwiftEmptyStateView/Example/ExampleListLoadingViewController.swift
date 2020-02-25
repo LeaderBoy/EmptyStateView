@@ -26,6 +26,7 @@ class ExampleListLoadingViewController: UIViewController {
     func load() {
         // 2.start loading
         tableView.reloadState(.loading)
+
         // 3.simulate network request
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             /// 4.reload state
@@ -47,7 +48,7 @@ extension ExampleDefault where Self : ListLoading {
     }
     
     func emptyLayout(in customView: UIView, for state: EmptyState) -> EmptyStateLayout? {
-        return .fullSafeArea(edges: .zero)
+        return .fullSafeArea(edges: UIEdgeInsets(top: 10, left: 15, bottom: 0, right: -15))
     }
     
     func emptyViewBackgroundColor(for state: EmptyState) -> UIColor? {
