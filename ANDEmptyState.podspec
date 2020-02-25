@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
   spec.swift_versions = "5.0"
   spec.name         = "ANDEmptyState"
-  spec.version      = "0.0.1"
+  spec.version      = "1.0.0"
   spec.summary      = "Show empty datasets in UIView whenever no content to display"
 
   # This description is used to generate tags and improve search results.
